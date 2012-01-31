@@ -6,9 +6,9 @@
 var cutscene = function (jaws, machine, background_image, text_to_show) {
     return {
 	background: new Image(),
-	update_count: 0,
 
 	setup: function () {
+	    this.update_count = 0;
 	    jaws.preventDefaultKeys(['space', 'escape']);
 	    jaws.on_keydown('escape',  function () { machine.next_state(); });
 	    jaws.context.font = '24pt Inconsolata';

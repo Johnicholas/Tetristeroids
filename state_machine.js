@@ -8,6 +8,14 @@ var state_machine =  {
 
     // there should be a states attribute added sometime before we start.
 
+    previous_state: function () {
+	this.state_index -= 1;
+	// fix up to guarantee positive
+	if (this.state_index < 0) {
+	    this.state_index = 0;
+	}
+	this.setup();
+    },
     next_state: function () {
 	this.state_index += 1;
 	this.state_index %= this.states.length;
@@ -21,7 +29,6 @@ var state_machine =  {
     setup: function () {
 	// delegate through to the current state
 	jaws.clearKeyCallbacks();
-	this.previous_state = this.state;
 	this.state = this.states[this.state_index];
 	this.state.setup();
     },

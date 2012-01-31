@@ -114,7 +114,7 @@ var tetris_clone = function (jaws, machine, frames_per_drop, background_image) {
 	},
 	checkForRow: function () {
 	    var to_clear = new Array();
-	    for (var row = 0; row < this.height - 1; ++row) {
+	    for (var row = 0; row < this.height; ++row) {
 		var isRow = true;
 		for (var col = 0; col < this.width; ++col) {
 		    if (this.map[row][col] == 0) {
@@ -124,7 +124,11 @@ var tetris_clone = function (jaws, machine, frames_per_drop, background_image) {
 		}
 		if (isRow) {
 		    to_clear.unshift(row);
-		    ++(this.completed_rows);
+		    this.completed_rows += 1;
+		    if (this.completed_rows >= 5) {
+			machine.next_state();
+			return;
+		    }
 		}
 	    }
 	    var cleared = 0;
@@ -164,7 +168,7 @@ var tetris_clone = function (jaws, machine, frames_per_drop, background_image) {
 	    this.row = initial_row;
 	    this.col = initial_col;
 	    if (this.checkCollision()) {
-		machine.next_state();
+		machine.previous_state();
 		return;
 	    }
 	    this.checkForRow();

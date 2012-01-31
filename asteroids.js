@@ -215,7 +215,7 @@ var asteroids = function (jaws, machine, initial_asteroid_count) {
 				     'space', 'q']);
 	    // Note: updownleftright are polled in update, not event-driven
 	    jaws.on_keydown('q', function () {
-		machine.next_state();
+		machine.previous_state();
 	    });
 	},
 	draw: function () {
@@ -233,8 +233,8 @@ var asteroids = function (jaws, machine, initial_asteroid_count) {
 	    jaws.context.fillStyle = 'white';
 	    jaws.context.textAlign = 'left';
 	    jaws.context.fillText(this.score, 10, 25);
-	    jaws.context.textAlign = 'right';
-	    jaws.context.fillText(this.level, 610, 25);
+	    // jaws.context.textAlign = 'right';
+	    // jaws.context.fillText(this.level, 610, 25);
 	    for (var i = 0; i < this.lives; ++i) {
 		jaws.context.save();
 		jaws.context.translate(40 + i * 20, 40);
@@ -271,7 +271,7 @@ var asteroids = function (jaws, machine, initial_asteroid_count) {
 		    explosion.play();
 		    this.lives -= 1;
 		    if (this.lives === 0) {
-			machine.next_state();
+			machine.previous_state();
 		    } else {
 			this.player = new Player();
 		    }
@@ -290,9 +290,12 @@ var asteroids = function (jaws, machine, initial_asteroid_count) {
 	    this.asteroids = this.asteroids.concat(new_asteroids);
 	    if (this.asteroids.length === 0) {
 		// go to next level
+		machine.next_state();
+		/*
 		this.level += 1;
 		this.asteroid_count += 1;
 		this.asteroids = spawn_asteroids(this.asteroid_count, 'large');
+		*/
 	    }
 	}
     };

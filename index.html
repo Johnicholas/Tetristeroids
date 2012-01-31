@@ -27,15 +27,23 @@
       state_machine.states = [
         cutscene(jaws, state_machine,
                  'background1.png',
-                 'This is a terrifying mixture of tetris and asteroids.'),
-        tetris_clone(jaws, state_machine, 50, 'background1.png'),
+                 'This is a terrifying mixture of tetris...'),
+        tetris_clone(jaws, state_machine, 30, 'background1.png'),
+        cutscene(jaws, state_machine,
+                 'background1.png',
+                 '... and asteroids.'),
         asteroids(jaws, state_machine, 3),
         cutscene(jaws, state_machine,
                  'background2.png',
                  'Death will avail you nothing.'),
-        tetris_clone(jaws, state_machine, 40, 'background2.png'),
-        asteroids(jaws, state_machine, 4),
+        tetris_clone(jaws, state_machine, 10, 'background2.png'),
+        cutscene(jaws, state_machine,
+                 'background1.png',
+                 'The show must go on.'),
+        asteroids(jaws, state_machine, 6),
       ];
+      // for debugging
+      state_machine.state_index = 5;
       jaws.start(state_machine);
     </script>
   </body>
