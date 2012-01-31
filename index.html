@@ -1,0 +1,42 @@
+<!DOCTYPE html> 
+<html>
+  <head>
+    <title>Tetristeroids, an unholy merge trying to demonstrate game states</title
+  </head>
+  <body>
+    <center>
+      An unholy merge of tetris and asteroids,
+      trying to learn about game states.
+      <canvas width=800 height=600></canvas>
+    </center>
+    <div id="jaws-log">
+    </div>
+    <script src="jaws.js"></script>
+    <script src="asteroids.js"></script>
+    <script src="tetris_clone.js"></script>
+    <script src="state_machine.js"></script>
+    <script src="cutscene.js"></script>
+    <script>
+      jaws.assets.add([
+        "background1.png",
+        "background2.png",
+        "explosion.wav",
+        "hit.wav",
+        "laser.wav"]);
+      state_machine.states = [
+        cutscene(jaws, state_machine,
+                 'background1.png',
+                 'This is a terrifying mixture of tetris and asteroids.'),
+        tetris_clone(jaws, state_machine, 50, 'background1.png'),
+        asteroids(jaws, state_machine, 3),
+        cutscene(jaws, state_machine,
+                 'background2.png',
+                 'Death will avail you nothing.'),
+        tetris_clone(jaws, state_machine, 40, 'background2.png'),
+        asteroids(jaws, state_machine, 4),
+      ];
+      jaws.start(state_machine);
+    </script>
+  </body>
+</html>
+
