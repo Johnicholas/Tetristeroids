@@ -1,0 +1,106 @@
+<!DOCTYPE html> 
+<html>
+  <head>
+    <title>Power-point-like cutscenes looks like.</title>
+  </head>
+  <body>
+    <center>
+      <canvas width=800 height=600></canvas>
+    </center>
+    <div id="jaws-log">
+    </div>
+    <script src="jaws.js"></script>
+    <script src="state_machine.js"></script>
+    <script src="cutscene.js"></script>
+    <script>
+jaws.assets.add([
+    "background1.png",
+    "background2.png",
+    "background3.png"]);
+/*
+state_machine.states = {
+    representation: [
+        cutscene(jaws, state_machine, {
+	    // background_image: 'background1.png',
+	    background_color: 'yellow',
+	    text: [
+		'Bring me my Bow of burning gold!',
+		'Bring me my Arrows of desire!'
+	    ]}),
+        cutscene(jaws, state_machine, {
+	    background_image: 'background1.png',
+	    background_color: 'blue',
+	    text: [ 'Bring me my Spear: O clouds unfold!' ]}),
+        cutscene(jaws, state_machine, {
+	    background_image: 'background2.png',
+	    background_color: 'red',
+	    text: [ 'Bring me my Chariot of Fire!' ] })
+    ],
+    get: function (which) {
+        which %= this.representation.length;
+        if (which < 0) {
+          which += this.representation.length;
+        }
+	return this.representation[which];
+    }
+};
+*/
+
+function wrap(value, max) {
+    value %= max;
+    // we want to guarantee the output is within [0..max),
+    // and javascript modulus doesn't quite do it,
+    // so we have to fix up negatives.
+    if (value < 0) {
+	value += max;  
+    }
+    return value;
+};
+
+state_machine.states = {
+    intro: [
+	cutscene(jaws, state_machine, {
+	    background_image: 'background1.png',
+	    text: [
+		'This is a terrifying mixture of tetris...'
+	    ]
+	}),
+	cutscene(jaws, state_machine, {
+	    background_image: 'background1.png',
+	    text: [
+		'... and asteroids.'
+	    ]
+	}),
+    ],
+    loop: function (x) {
+      return [
+	    cutscene(jaws, state_machine, {
+		background_image: 'background2.png',
+		text: [
+		    'Death will avail you nothing.'
+		]
+	    }),
+	    cutscene(jaws, state_machine, {
+		background_image: 'background1.png',
+		text: [
+		    'The show must go on.'
+		]
+	    }),
+	]
+    },
+    get: function (which) {
+	if (which < this.intro.length) {
+	    return this.intro[which];
+	} else {
+	    var loop_instance = this.loop(which);
+	    return loop_instance[wrap(which, loop_instance.length)];
+	}
+    }
+};
+    
+    
+jaws.start(state_machine);
+        </script>
+  </body>
+</html>
+

@@ -18,18 +18,15 @@ var state_machine =  {
     },
     next_state: function () {
 	this.state_index += 1;
-	this.state_index %= this.states.length;
-	// fix up to guarantee positive
-	if (this.state_index < 0) {
-	    this.state_index += this.states.length;
-	}
+	// note: wraparound should be handled by the states object,
+	// if that's the appropriate way to handle it.
 	this.setup();
     },
     // called by jaws
     setup: function () {
 	// delegate through to the current state
 	jaws.clearKeyCallbacks();
-	this.state = this.states[this.state_index];
+	this.state = this.states.get(this.state_index);
 	this.state.setup();
     },
     // called by jaws periodically
