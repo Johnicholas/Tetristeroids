@@ -85,11 +85,9 @@ var tetris_clone = function (jaws, machine, frames_per_drop, background_image) {
 	drawActive: function () {
 	    jaws.context.fillStyle = 'deeppink';
 	    var cells = this.shapes[this.tile].cells;
-	    cells.push({ row: 0.0, col: 0.0}); // center is always there
+	    cells.push({ row: 0, col: 0}); // center is always there
 	    for (var i in cells) {
-		drawSquare(this.row + cells[i].row - 1 +
-			   // smoother descent
-			   (this.cycle / frames_per_drop), 
+		drawSquare(this.row + cells[i].row,
 			   this.col + cells[i].col);
 	    }
 	},

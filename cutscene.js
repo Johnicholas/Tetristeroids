@@ -3,33 +3,47 @@
 
 'use strict';
 
-var cutscene = function (jaws, machine, background_image, text_to_show) {
-    return {
-	background: new Image(),
+var cutscene = function (jaws, machine, description) {
+    var lineheight = 50; // pixels - a rough guess?
 
+    return {
 	setup: function () {
-	    this.update_count = 0;
-	    jaws.preventDefaultKeys(['space', 'escape']);
-	    jaws.on_keydown('escape',  function () { machine.next_state(); });
-	    jaws.context.font = '24pt Inconsolata';
-	    jaws.context.textAlign = 'center';
-	    jaws.context.fillStyle = 'black';
-	    this.background.src = background_image;
+	    if (description.background_image) {
+		this.background = new Image();
+		this.background.src = description.background_image;
+	    }
+	    jaws.preventDefaultKeys(['space']);
+	    this.step = 0;
+	    var that = this;
+	    jaws.on_keydown('space', function () {
+		if (description.text[that.step + 1]) {
+		    that.step += 1;
+		} else {
+		    machine.next_state();
+		}
+	    });
 	},
 	draw: function () {
-	    jaws.context.drawImage(this.background, 0, 0);
-	    jaws.context.fillText(text_to_show,
-				  jaws.width / 2,
-				  jaws.height / 2);
+	    if (description.background_color) {
+		jaws.context.fillStyle = description.background_color;
+		jaws.context.fillRect(0, 0, jaws.width, jaws.height);
+	    }
+	    if (this.background) {
+		jaws.context.drawImage(this.background, 0, 0);
+	    }
+	    if (description.text) {
+		for (var i = 0; i <= this.step; ++i) {
+		    jaws.context.font = '24pt Inconsolata';
+		    jaws.context.textAlign = 'center';
+		    jaws.context.fillStyle = 'black';
+		    jaws.context.fillText(description.text[i],
+					  jaws.width / 2,
+					  (jaws.height - description.text.length * lineheight) / 2 + i * lineheight);
+		}
+	    }
 	},
 	update: function () {
-	    // TODO: refactor this ridiculous update_count thing
-	    // and put real time in
-	    if (this.update_count >= 250) {
-		machine.next_state();
-	    } else {
-		this.update_count += 1;
-	    }
+	    // nothing to do
 	}
     };
 };

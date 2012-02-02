@@ -17,35 +17,7 @@
     <script src="tetris_clone.js"></script>
     <script src="state_machine.js"></script>
     <script src="cutscene.js"></script>
-    <script>
-      jaws.assets.add([
-        "background1.png",
-        "background2.png",
-        "explosion.wav",
-        "hit.wav",
-        "laser.wav"]);
-      state_machine.states = [
-        cutscene(jaws, state_machine,
-                 'background1.png',
-                 'This is a terrifying mixture of tetris...'),
-        tetris_clone(jaws, state_machine, 30, 'background1.png'),
-        cutscene(jaws, state_machine,
-                 'background1.png',
-                 '... and asteroids.'),
-        asteroids(jaws, state_machine, 3),
-        cutscene(jaws, state_machine,
-                 'background2.png',
-                 'Death will avail you nothing.'),
-        tetris_clone(jaws, state_machine, 10, 'background2.png'),
-        cutscene(jaws, state_machine,
-                 'background1.png',
-                 'The show must go on.'),
-        asteroids(jaws, state_machine, 6),
-      ];
-      // for debugging
-      state_machine.state_index = 5;
-      jaws.start(state_machine);
-    </script>
+    <script src="all_together_now.js"></script>
   </body>
 </html>
 

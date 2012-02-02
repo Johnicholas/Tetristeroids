@@ -5,6 +5,12 @@
 'use strict';
 
 var asteroids = function (jaws, machine, initial_asteroid_count) {
+    jaws.assets.add([
+	"explosion.wav",
+	"hit.wav",
+	"laser.wav"
+    ]);
+
     function random(max) {
 	return Math.floor(Math.random() * (max + 1));
     };
